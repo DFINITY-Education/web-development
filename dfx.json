@@ -1,0 +1,44 @@
+{
+  "canisters": {
+    "web_development": {
+      "main": "src/Main.mo",
+      "type": "motoko"
+    },
+    "balances": {
+      "main": "src/Balances.mo",
+      "type": "motoko"
+    },
+    "web_development_assets": {
+      "dependencies": [
+        "web_development"
+      ],
+      "frontend": {
+        "entrypoint": "frontend/public/index.js"
+      },
+      "source": [
+        "frontend/assets",
+        "dist/web_development_assets/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": ""
+    }
+  },
+  "dfx": "0.6.14",
+  "networks": {
+    "ic": {
+      "providers": [
+        "https://gw.dfinity.network"
+      ],
+      "type": "persistent"
+    },
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  },
+  "version": 1
+}
