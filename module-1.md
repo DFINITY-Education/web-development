@@ -14,7 +14,7 @@
 
 [TODO - MOVE TO IC APPLICATION MONTH]
 
-![](/Users/csol/Documents/Programming/Dfinity/Developer Experience - Death By a Thousand Cuts.png)
+![Developer Experience - Death By a Thousand Cuts](images/dev-exp.png)
 
 *The many pain-points of developing a web application on a service like Ethereum.* 
 
@@ -32,7 +32,7 @@ Canister messaging serves as the backbone for inter-canister communication, allo
 
 #### Query Calls
 
-![](/Users/csol/Documents/Programming/Dfinity/query-calls.jpeg)
+![](images/query-calls.jpeg)
 
 Query calls allow the user to query the current state of a canister or call a function that operates on the canister’s state **without changing it**.
 
@@ -43,7 +43,7 @@ Query calls allow the user to query the current state of a canister or call a fu
 
 #### Update Calls
 
-![](/Users/csol/Documents/Programming/Dfinity/update-calls.jpeg)
+![](images/update-calls.jpeg)
 
 Update calls allow the user to change the state of the canister and have **changes persisted**.
 
@@ -53,7 +53,7 @@ Update calls allow the user to change the state of the canister and have **chang
 
 ### HTTP Requests
 
-![](/Users/csol/Documents/Programming/Dfinity/IC-request.png)
+![](images/IC-request.png)
 
 Let's dive under the hood to get a better sense of how HTTP requests work on the IC. First, a client device queries a website, which using DNS is resolved into a list of IP addresses of the replica nodes in closest proximity that store the desired canister. The full HTTP request is passed to the replica, which performs a query call to the canister. Finally, the canister passes the HTTP response back to the replica, which is sent to the end user's device and decoded to display the relevant website info. 
 
