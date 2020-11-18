@@ -6,6 +6,7 @@ module {
 
   public type UserId = Principal;
   public type Result = Result.Result<(), Error>;
+  public type GovResult = Result.Result<(), GovError>;
 
   public type Auction = {
     owner: UserId;
@@ -27,11 +28,38 @@ module {
     amount: Nat;
   };
 
+  public type ProposalStatus = {
+    #active;
+    #canceled;
+    #defeated;
+    #succeeded;
+  };
+
+  public type Proposal = {
+    newApp: Principal;
+    proposer: Principal;
+    votesFor: Nat;
+    votesAgainst: Nat;
+    status: ProposalStatus;
+    ttl: Int;
+  };
+
   public type Error = {
     #belowMinimumBid;
     #insufficientBalance;
     #itemNotFound;
     #userNotFound;
+  };
+
+  public type Vote = {
+    #inFavor;
+    #against;
+  };
+
+  public type GovError = {
+    #incorrectPermissions;
+    #proposalNotFound;
+    #proposalNotActive;
   };
 
 };

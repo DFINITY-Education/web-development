@@ -13,7 +13,7 @@ shared {caller = owner} actor class Balances() {
   private let userIdToBalance = HashMap.HashMap<UserId, Nat>(1, Principal.equal, Principal.hash);
   private let userIdToClaimableBalance = HashMap.HashMap<UserId, [Claim]>(1, Principal.equal, Principal.hash);
 
-  public func getBalance(user: UserId) : async (Nat) {
+  public query func getBalance(user: UserId) : async (Nat) {
     switch (userIdToBalance.get(user)) {
       case (null) 0;
       case (?balance) balance;
@@ -36,7 +36,7 @@ shared {caller = owner} actor class Balances() {
     }
   };
 
-  public shared {caller} func getClaimable(user: UserId) : async (Nat) {
+  public shared query {caller} func getClaimable(user: UserId) : async (Nat) {
     switch (userIdToClaimableBalance.get(caller)) {
       case (null) 0;
       case (?claimArray) {

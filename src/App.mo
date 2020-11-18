@@ -3,11 +3,10 @@ import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 import Time "mo:base/Time";
 
-import Balances "canister:balances";
-
+import Balances "./Balances";
 import Types "./Types";
 
-module {
+actor class App(balances: Balances.Balances) {
 
   private type UserId = Types.UserId;
   private type Auction = Types.Auction;
@@ -34,7 +33,7 @@ module {
     };
 
     public func makeBid(caller: Principal, auctionId: Nat, amount: Nat) : (Result) {
-      let balance = Balances.getBalance(caller);
+      let balance = Balances.Balances.getBalance(caller);
       if (amount > balance) return #err(#insufficientBalance);
       let auction = activeAuctions[auctionId];
       switch (auction.highestBidder) {
@@ -78,7 +77,7 @@ module {
       startingBid = _startingBid;
       var highestBid = 0;
       var highestBidder = null;
-      ttl = Time.now();
+      ttl = Time.now() + (3600 * 1000_000_000);
     }
   };
 

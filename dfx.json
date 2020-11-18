@@ -4,10 +4,6 @@
       "main": "src/Main.mo",
       "type": "motoko"
     },
-    "balances": {
-      "main": "src/Balances.mo",
-      "type": "motoko"
-    },
     "web_development_assets": {
       "dependencies": [
         "web_development"
