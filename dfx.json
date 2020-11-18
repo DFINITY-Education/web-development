@@ -9,7 +9,7 @@
         "web_development"
       ],
       "frontend": {
-        "entrypoint": "frontend/public/index.js"
+        "entrypoint": "frontend/index.js"
       },
       "source": [
         "frontend/assets",

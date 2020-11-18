@@ -7,10 +7,10 @@
     "build": "webpack"
   },
   "dependencies": {
+    "materialize-css": "1.0.0",
     "react": "17.0.1",
     "react-bootstrap": "1.4.0",
     "react-dom": "17.0.1",
-    "react-image": "4.0.3",
     "wrouter": "0.0.6"
   },
   "devDependencies": {
