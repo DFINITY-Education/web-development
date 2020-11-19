@@ -38,9 +38,9 @@ module {
   public type Proposal = {
     newApp: Principal;
     proposer: Principal;
-    votesFor: Nat;
-    votesAgainst: Nat;
-    status: ProposalStatus;
+    var votesFor: Nat;
+    var votesAgainst: Nat;
+    var status: ProposalStatus;
     ttl: Int;
   };
 

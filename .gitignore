@@ -13,6 +13,7 @@ canisters/
 
 # dfx temporary files
 .dfx/
+dist/
 
 # frontend code
 node_modules/

@@ -14,7 +14,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
       ".dfx",
       networkName,
       "canisters",
-      name
+      name,
     );
 
     return {
@@ -23,7 +23,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
       ["ic:idl/" + name]: path.join(outputRoot, name + ".did.js"),
     };
   },
-  {}
+  {},
 );
 
 /**
@@ -63,12 +63,13 @@ function generateWebpackConfigForCanister(name, info) {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
+        resolve: { extensions: [".js", ".jsx"] },
       },
       //  { test: /\.(js|ts)x?$/, loader: "ts-loader" },
       //  { test: /\.css$/, use: ['style-loader','css-loader'] }
-     ]
+     ],
     },
     plugins: [],
   };
