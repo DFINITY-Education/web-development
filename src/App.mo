@@ -15,7 +15,7 @@ actor class App(balancesAddr: Principal) {
 
   private var items: [Item] = [];
   private var activeAuctions: [var Auction] = [var];
-  // private let balances = await Balances.Balances();
+  private let balances = actor (Principal.toText(balancesAddr)) : Balances.Balances;
 
   public func auctionItem(
     caller: UserId,
@@ -33,7 +33,6 @@ actor class App(balancesAddr: Principal) {
   };
 
   public func makeBid(caller: Principal, auctionId: Nat, amount: Nat) : async (Result) {
-    let balances = await Balances.Balances();
     let balance = await balances.getBalance(caller);
     if (amount > balance) return #err(#insufficientBalance);
     let auction = activeAuctions[auctionId];

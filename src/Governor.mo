@@ -1,9 +1,11 @@
 import Array "mo:base/Array";
+import Principal "mo:base/Principal";
 import Time "mo:base/Time";
 
+import Balances "./Balances";
 import Types "./Types";
 
-shared {caller = owner} actor class Governor(starterApp: Principal, voteThreshold: Float) {
+shared {caller = owner} actor class Governor(starterApp: Principal, balancesAddr: Principal, voteThreshold: Float) {
 
   private type ProposalStatus = Types.ProposalStatus;
   private type Proposal = Types.Proposal;
@@ -12,6 +14,7 @@ shared {caller = owner} actor class Governor(starterApp: Principal, voteThreshol
 
   // This should use BigMap
   private var proposals: [var Proposal] = [var];
+  private let balances = actor (Principal.toText(balancesAddr)) : Balances.Balances;
 
   public shared {caller} func propose(newApp: Principal) {
     proposals := Array.thaw<Proposal>(
