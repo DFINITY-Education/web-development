@@ -1,28 +1,34 @@
 import Array "mo:base/Array";
+import Float "mo:base/Float";
 import Principal "mo:base/Principal";
+import Result "mo:base/Result";
 import Time "mo:base/Time";
 
 import Types "./Types";
 
-shared {caller = owner} actor class Governor(starterApp: Principal, voteThreshold: Float) {
+shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
 
-  private type ProposalStatus = Types.ProposalStatus;
-  private type Proposal = Types.Proposal;
-  private type Result = Types.GovResult;
-  private type Vote = Types.Vote;
+  type Proposal = Types.Proposal;
+  type ProposalStatus = Types.ProposalStatus;
+  type Vote = Types.Vote;
+
+  type Result = Result.Result<(), Types.GovError>;
+  type PropResult = Result.Result<ProposalStatus, Types.GovError>;
+
+  let owner = msg.caller;
 
   // This should use BigMap
-  private var proposals: [var Proposal] = [var];
+  var proposals: [var Proposal] = [var];
 
-  public shared {caller} func propose(newApp: Principal) {
+  public shared(msg) func propose(newApp: Principal) {
     proposals := Array.thaw<Proposal>(
-      Array.append<Proposal>(Array.freeze<Proposal>(proposals), [makeProposal(newApp, caller)]));
+      Array.append<Proposal>(Array.freeze<Proposal>(proposals), [makeProposal(newApp, msg.caller)]));
   };
 
-  public shared {caller} func cancelProposal(propNum: Nat) : async (Result) {
+  public shared(msg) func cancelProposal(propNum: Nat) : async (Result) {
     if (proposals.size() < propNum) return #err(#proposalNotFound);
     let prop = proposals[propNum];
-    if (caller != owner and caller != prop.proposer) return #err(#incorrectPermissions);
+    if (msg.caller != owner and msg.caller != prop.proposer) return #err(#incorrectPermissions);
     switch (prop.status) {
       case (#active) {
         prop.status := #canceled;
@@ -33,23 +39,60 @@ shared {caller = owner} actor class Governor(starterApp: Principal, voteThreshol
     }
   };
 
-  // public func voteOnProposal(propNum: Nat, vote: Vote) : async (Result) {
-  //   if (proposals.size() < propNum) return #err(#propNotFound);
-  //   let prop = proposals[propNum];
-  //   switch (prop.status) {
-  //     case (#active) {
-  //       switch (vote) {
-  //         case (#inFavor) prop.votesFor += 1;
-  //         case (#against) prop.votesFor += 1;
-  //       };
-  //       proposals[propNum] := prop;
-  //       #ok()
-  //     };
-  //     case (_) #err(#proposalNotActive);
-  //   }
-  // };
+  public func voteOnProposal(propNum: Nat, vote: Vote) : async (Result) {
+    switch (_checkProposal(propNum)) {
+      case (#ok(status)) {
+        switch (status) {
+          case (#active) {
+            let prop = proposals[propNum];
+            switch (vote) {
+              case (#inFavor) prop.votesFor += 1;
+              case (#against) prop.votesAgainst += 1;
+            };
+            proposals[propNum] := prop;
+            #ok()
+          };
+          case (_) #err(#proposalNotActive);
+        }
+      };
+      case (#err(e)) #err(e);
+    }
+  };
 
-  private func makeProposal(_newApp: Principal, _proposer: Principal) : (Proposal) {
+  public func checkProposal(propNum: Nat) : async (PropResult) {
+    _checkProposal(propNum)
+  };
+
+  func _checkProposal(propNum: Nat) : (PropResult) {
+    if (proposals.size() < propNum) return #err(#proposalNotFound);
+    let prop = proposals[propNum];
+    let status = switch (prop.status) {
+      case (#active) {
+        if (Time.now() > prop.ttl) {
+          let outcome = Float.div(
+              Float.fromInt(prop.votesFor),
+              (Float.fromInt(prop.votesFor) + Float.fromInt(prop.votesAgainst))
+            );
+          if (outcome > voteThreshold) {
+            prop.status := #succeeded;
+            proposals[propNum] := prop;
+            #succeeded
+          } else {
+            prop.status := #defeated;
+            proposals[propNum] := prop;
+            #defeated
+          }
+        } else {
+          #active
+        }
+      };
+      case (anythingElse) anythingElse;
+    };
+
+    #ok(status)
+  };
+
+  func makeProposal(_newApp: Principal, _proposer: Principal) : (Proposal) {
     {
       newApp = _newApp;
       proposer = _proposer;

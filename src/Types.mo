@@ -4,14 +4,13 @@ import Result "mo:base/Result";
 
 module {
 
+  public type AuctionId = Nat;
   public type UserId = Principal;
   public type Result = Result.Result<(), Error>;
-  public type GovResult = Result.Result<(), GovError>;
 
   public type Auction = {
     owner: UserId;
-    itemNum: Nat;
-    startingBid: Nat;
+    item: Item;
     var highestBid: Nat;
     var highestBidder: ?UserId;
     ttl: Int;
@@ -21,11 +20,6 @@ module {
     name: Text;
     description: Text;
     url: Text;
-  };
-
-  public type Claim = {
-    from: UserId;
-    amount: Nat;
   };
 
   public type ProposalStatus = {
@@ -47,7 +41,7 @@ module {
   public type Error = {
     #belowMinimumBid;
     #insufficientBalance;
-    #itemNotFound;
+    #auctionNotFound;
     #userNotFound;
   };
 
