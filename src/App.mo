@@ -8,7 +8,7 @@ import Time "mo:base/Time";
 import Balances "./Balances";
 import Types "./Types";
 
-actor class App(balancesAddr: Principal) {
+actor class App(balancesAddr: Principal) = App {
 
   type AuctionId = Types.AuctionId;
   type UserId = Types.UserId;
@@ -51,9 +51,9 @@ actor class App(balancesAddr: Principal) {
           };
           case (?previousHighestBidder) {
             if (amount > auction.highestBid) {
-              // TODO: How to reference self Principal?
-              // balances.transfer(bidder, self, amount);
-              // balances.transfer(self, previousHighestBidder, auction.highestBid);
+              let myPrincipal = Principal.fromActor(App);
+              ignore balances.transfer(bidder, myPrincipal, amount);
+              ignore balances.transfer(myPrincipal, previousHighestBidder, auction.highestBid);
               auctions.put(auctionId, setNewBidder(auction, bidder, amount));
               #ok()
             } else {
