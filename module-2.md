@@ -48,7 +48,7 @@ The auction app itself it relatively straightforward: we maintain individual `Au
 
 #### `Governor.mo`
 
-Our `Governor` canister manages proposed upgrades to our application. See the [Autonomous Canisters](/module-1.md#Autonomous-Canisters) section in Module 1 for a more in-depth discussion of this. 
+Our `Governor` canister manages proposed upgrades to our application. See the [Autonomous Canisters](/module-1.md#Autonomous-Canisters) section in Module 1 for a more in-depth discussion of this. This file isn't needed for your work in Module 2 - we will revisit it within Module 4. 
 
 ####  `Main.mo` 
 
