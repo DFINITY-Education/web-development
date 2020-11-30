@@ -1,6 +1,12 @@
-import { React } from "react";
-import { render } from "react-dom";
+import App from './App.svelte';
 
-import App from "./App";
+const app = new App({
+  target: document.body,
+  props: {
+    name: 'world',
+  },
+});
 
-render(<div />, document.getElementById("app"));
+window.app = app;
+
+export default app;

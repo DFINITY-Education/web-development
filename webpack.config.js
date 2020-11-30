@@ -23,7 +23,9 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
       ["ic:idl/" + name]: path.join(outputRoot, name + ".did.js"),
     };
   },
-  {},
+  {
+    svelte: path.resolve('node_modules', 'svelte'),
+  },
 );
 
 /**
@@ -46,6 +48,8 @@ function generateWebpackConfigForCanister(name, info) {
     },
     resolve: {
       alias: aliases,
+      extensions: [".js", ".svelte"],
+      mainFields: ["svelte", "browser", "module", "main"],
     },
     output: {
       filename: "[name].js",
@@ -58,18 +62,25 @@ function generateWebpackConfigForCanister(name, info) {
     // modules and CSS as described in the "Adding a stylesheet"
     // tutorial, uncomment the following lines:
     module: {
-     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
+      rules: [
+        {
+          test: /\.svelte$/,
+          use: {
+            loader: 'svelte-loader',
+            options: {
+              emitCss: true,
+              hotReload: true,
+            },
+          },
         },
-        resolve: { extensions: [".js", ".jsx"] },
-      },
-      //  { test: /\.(js|ts)x?$/, loader: "ts-loader" },
-      //  { test: /\.css$/, use: ['style-loader','css-loader'] }
-     ],
+        {
+          test: /\.css$/,
+          use: [
+            "style-loader",
+            "css-loader",
+          ],
+        },
+      ],
     },
     plugins: [],
   };
