@@ -17,8 +17,24 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
 
   let owner = msg.caller;
 
+  var currentApp = starterApp;
   // This should use BigMap
   var proposals: [var Proposal] = [var];
+
+  public shared(msg) func migrate(propNum: Nat) : async (Result) {
+    switch (_checkProposal(propNum)) {
+      case (#ok(status)) {
+        switch (status) {
+          case (#succeeded) {
+            currentApp := proposals[propNum].newApp;
+            #ok()
+          };
+          case (_) #err(#proposalNotActive);
+        }
+      };
+      case (#err(e)) #err(e);
+    }
+  };
 
   public shared(msg) func propose(newApp: Principal) : async (Nat) {
     proposals := Array.thaw<Proposal>(

@@ -30,6 +30,13 @@ actor {
     governor := ?(await Governor.Governor(Principal.fromActor(tempApp), 0.5));
   };
 
+  public shared(msg) func migrate(propNum: Nat) : async (Result<(), GovError>) {
+    switch (governor) {
+      case (null) #err(#noGovernor);
+      case (?gov) (await gov.migrate(propNum));
+    };
+  };
+
   public shared(msg) func propose(newApp: Principal) : async (Result<Nat, GovError>) {
     switch (governor) {
       case (null) #err(#noGovernor);
