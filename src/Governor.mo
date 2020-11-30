@@ -20,9 +20,10 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
   // This should use BigMap
   var proposals: [var Proposal] = [var];
 
-  public shared(msg) func propose(newApp: Principal) {
+  public shared(msg) func propose(newApp: Principal) : async (Nat) {
     proposals := Array.thaw<Proposal>(
       Array.append<Proposal>(Array.freeze<Proposal>(proposals), [makeProposal(newApp, msg.caller)]));
+    proposals.size();
   };
 
   public shared(msg) func cancelProposal(propNum: Nat) : async (Result) {

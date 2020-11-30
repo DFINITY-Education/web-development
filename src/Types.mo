@@ -51,6 +51,7 @@ module {
   };
 
   public type GovError = {
+    #noGovernor;
     #incorrectPermissions;
     #proposalNotFound;
     #proposalNotActive;
