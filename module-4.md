@@ -39,9 +39,7 @@ We create `proposals` to store all proposals that are proposed. Proposals remain
 
 The `propose` function, which has been implemented for you, accepts the id of a new proposed `App` canister. We use this `newApp` and the id of the canister that proposed it (stored in `msg.caller`) to create a new `Proposal` (which has been factored out by the helper `makeProposal`). Note that our `proposals` array is mutable, so we must first `freeze` the current array before appending our new `Proposal`. Finally, we `thaw` the array before reseting the value of `proposals`.
 
-
-
-
+**[TO-DO: Overview of `checkProposal` once it is split into two parts]**
 
 ### Specification
 
@@ -60,7 +58,12 @@ The `propose` function, which has been implemented for you, accepts the id of a 
 
 **`voteOnProposal`** allows stakeholders to vote for or against an active proposal
 
-* 
+* Accepts two parameters: `propNum`, which represents the index of the proposal in the `proposals` list, and `vote`, which is a vote for the corresponding proposal (which must be the variant type `Vote`) 
+* You must first check if the proposal is valid by calling `_checkProposal`
+  * If `_checkProposal` throws an error, be sure to return that same error for `voteOnProposal` as well
+* `_checkProposal` returns the status of the proposal that you passed in, so you must condition on this status
+  * If the proposal is active, then increment either the `votesFor` or `votesAgainst` attributes of the given proposal depending on the `vote` that was cast
+  * Otherwise, return the `#proposalNotActive` error
 
 
 
