@@ -6,6 +6,7 @@ const dfxJson = require("./dfx.json");
 // the `import ... from "ic:canisters/xyz"` where xyz is the name of a
 // canister.
 const aliases = Object.entries(dfxJson.canisters).reduce(
+  // eslint-disable-next-line no-unused-vars
   (acc, [name, _value]) => {
     // Get the network name, or `local` by default.
     const networkName = process.env["DFX_NETWORK"] || "local";
@@ -68,7 +69,7 @@ function generateWebpackConfigForCanister(name, info) {
           use: {
             loader: 'svelte-loader',
             options: {
-              emitCss: true,
+              // emitCss: true,
               hotReload: true,
             },
           },

@@ -1,23 +1,23 @@
 {
-  "name": "web_development_assets",
+  "name": "web_development",
   "version": "0.1.0",
   "description": "",
   "keywords": [],
+  "repository": "https://github.com/DFINITY-Education/web-development",
+  "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
-    "start": "webpack-dev-server --open --hot --mode development",
     "build": "webpack --mode production"
   },
   "devDependencies": {
-    "@dfinity/agent": "0.6.14",
+    "@dfinity/agent": "0.6.15",
     "css-loader": "5.0.1",
-    "eslint": "7.13.0",
+    "eslint": "7.14.0",
     "eslint-plugin-svelte3": "2.7.3",
     "style-loader": "2.0.0",
     "svelte": "3.30.0",
     "svelte-loader": "2.13.6",
     "terser-webpack-plugin": "4.2.3",
     "webpack": "4.41.3",
-    "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.11.0"
+    "webpack-cli": "4.2.0"
   }
 }
