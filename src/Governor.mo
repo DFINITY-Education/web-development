@@ -21,6 +21,12 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
   // This should use BigMap
   var proposals: [var Proposal] = [var];
 
+  /// Swaps in the new App canister to replace the previous version. This is the result of
+  ///   a migration proposal succeeding.
+  /// Args:
+  ///   |propNum|  The number representing the passed proposal.
+  /// Returns:
+  ///   A Result indicating if the migration was successfully executed (see "GovError" in Types.mo for possible errors).
   public shared(msg) func migrate(propNum: Nat) : async (Result) {
     switch (_checkProposal(propNum)) {
       case (#ok(status)) {
@@ -36,12 +42,22 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
     }
   };
 
+  /// Creates a new proposal for App migration.
+  /// Args:
+  ///   |newApp|  The Princpal id of the new proposed App.
+  /// Returns:
+  ///   The id associated with this proposal.
   public shared(msg) func propose(newApp: Principal) : async (Nat) {
     proposals := Array.thaw<Proposal>(
       Array.append<Proposal>(Array.freeze<Proposal>(proposals), [makeProposal(newApp, msg.caller)]));
     proposals.size();
   };
 
+  /// Cancels a proposal (can ony be called by the owner of the proposal or owner of the Governor).
+  /// Args:
+  ///   |propNum|  The id of the proposal.
+  /// Returns:
+  ///   A Result indicating if the cancellation was successfully executed (see "GovError" in Types.mo for possible errors).
   public shared(msg) func cancelProposal(propNum: Nat) : async (Result) {
     if (proposals.size() < propNum) return #err(#proposalNotFound);
     let prop = proposals[propNum];
@@ -56,6 +72,12 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
     }
   };
 
+  /// Records a new proposal vote.
+  /// Args:
+  ///   |propNum|  The id of the proposal.
+  ///   |vote|     The vote being case (variant type Vote - see Types.mo)
+  /// Returns:
+  ///   A Result indicating if the vote was successfully recorded (see "GovError" in Types.mo for possible errors).
   public func voteOnProposal(propNum: Nat, vote: Vote) : async (Result) {
     switch (_checkProposal(propNum)) {
       case (#ok(status)) {
@@ -76,10 +98,17 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
     }
   };
 
+  /// External-facing method for inter-canister calls
   public func checkProposal(propNum: Nat) : async (PropResult) {
     _checkProposal(propNum)
   };
 
+  /// Checks if the given proposal has exceeded its time to live.
+  ///   If so, checks if the vote has passed the given threshold.
+  /// Args:
+  ///   |propNum|  The id of the proposal.
+  /// Returns:
+  ///   The new status of this proposal (in the form of the PropResult variant - see Types.mo)
   func _checkProposal(propNum: Nat) : (PropResult) {
     if (proposals.size() < propNum) return #err(#proposalNotFound);
     let prop = proposals[propNum];
@@ -109,6 +138,12 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
     #ok(status)
   };
 
+  /// Helper called in Propose - used to create a new proposal
+  /// Args:
+  ///   |_newApp|   The Principal of the newly proposed App.
+  ///   |_proposer| The canister making the proposal.
+  /// Returns:
+  ///   The new Proposal object (see Types.mo)
   func makeProposal(_newApp: Principal, _proposer: Principal) : (Proposal) {
     {
       newApp = _newApp;

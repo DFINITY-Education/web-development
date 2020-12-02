@@ -37,9 +37,11 @@ The `Governor` constructor takes two parameters: `starterApp` and `VoteThreshold
 
 We create `proposals` to store all proposals that are proposed. Proposals remain in this list even after they have been cancelled, defeated, or succeeded.
 
-The `propose` function, which has been implemented for you, accepts the id of a new proposed `App` canister. We use this `newApp` and the id of the canister that proposed it (stored in `msg.caller`) to create a new `Proposal` (which has been factored out by the helper `makeProposal`). Note that our `proposals` array is mutable, so we must first `freeze` the current array before appending our new `Proposal`. Finally, we `thaw` the array before reseting the value of `proposals`.
+The `propose` method, which has been implemented for you, accepts the id of a new proposed `App` canister. We use this `newApp` and the id of the canister that proposed it (stored in `msg.caller`) to create a new `Proposal` (which has been factored out by the helper `makeProposal`). Note that our `proposals` array is mutable, so we must first `freeze` the current array before appending our new `Proposal`. Finally, we `thaw` the array before reseting the value of `proposals`.
 
-**[TO-DO: Overview of `checkProposal` once it is split into two parts]**
+`checkProposal` checks if the given proposal has exceeded its `ttl`, and, if so, runs the necessary calculation to determine if the proposal status should switch to `#succeeded` or `#defeated`. We have created `checkProposal` and `_checkProposal` to allow this function to both be used within the `Governor` canister (as a helper in `voteOnProposal`) and for external canister calls. `checkProposal` is for external calls (hence the `async` result) while `_checkProposal` is for internal canister use only.
+
+The `migrate` method performs the canister migration by replacing `currentApp` (which stores the canister of the current App for our auction system) with the Principal provided in the passed proposal. This only occurs once a proposal has been voted on and passes the desired threshold. 
 
 ### Specification
 
@@ -59,7 +61,7 @@ The `propose` function, which has been implemented for you, accepts the id of a 
 **`voteOnProposal`** allows stakeholders to vote for or against an active proposal
 
 * Accepts two parameters: `propNum`, which represents the index of the proposal in the `proposals` list, and `vote`, which is a vote for the corresponding proposal (which must be the variant type `Vote`) 
-* You must first check if the proposal is valid by calling `_checkProposal`
+* You must first check if the proposal is active (i.e. that it hasn't exceeded its time to live, or `ttl`) by calling `_checkProposal`
   * If `_checkProposal` throws an error, be sure to return that same error for `voteOnProposal` as well
 * `_checkProposal` returns the status of the proposal that you passed in, so you must condition on this status
   * If the proposal is active, then increment either the `votesFor` or `votesAgainst` attributes of the given proposal depending on the `vote` that was cast
