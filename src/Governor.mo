@@ -21,6 +21,10 @@ shared(msg) actor class Governor(starterApp: Principal, voteThreshold: Float) {
   // This should use BigMap
   var proposals: [var Proposal] = [var];
 
+  public query func getCurrentApp() : async (Principal) {
+    currentApp
+  };
+
   /// Swaps in the new App canister to replace the previous version. This is the result of
   ///   a migration proposal succeeding.
   /// Args:
