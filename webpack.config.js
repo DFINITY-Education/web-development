@@ -6,6 +6,7 @@ const dfxJson = require("./dfx.json");
 // the `import ... from "ic:canisters/xyz"` where xyz is the name of a
 // canister.
 const aliases = Object.entries(dfxJson.canisters).reduce(
+  // eslint-disable-next-line no-unused-vars
   (acc, [name, _value]) => {
     // Get the network name, or `local` by default.
     const networkName = process.env["DFX_NETWORK"] || "local";
@@ -14,7 +15,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
       ".dfx",
       networkName,
       "canisters",
-      name
+      name,
     );
 
     return {
@@ -23,7 +24,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
       ["ic:idl/" + name]: path.join(outputRoot, name + ".did.js"),
     };
   },
-  {}
+  {},
 );
 
 /**
@@ -46,6 +47,7 @@ function generateWebpackConfigForCanister(name, info) {
     },
     resolve: {
       alias: aliases,
+      extensions: [".js", ".jsx"],
     },
     output: {
       filename: "[name].js",
@@ -60,8 +62,8 @@ function generateWebpackConfigForCanister(name, info) {
     module: {
      rules: [
        { test: /\.(js|ts)x?$/, loader: "ts-loader" },
-       { test: /\.css$/, use: ['style-loader','css-loader'] }
-     ]
+       { test: /\.css$/, use: ['style-loader','css-loader'] },
+     ],
     },
     plugins: [],
   };
