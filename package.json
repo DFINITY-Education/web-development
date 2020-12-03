@@ -1,14 +1,18 @@
 {
   "name": "web_development_assets",
   "version": "0.1.0",
-  "description": "",
+  "description": "In this course, students will learn how to develop web applications on the IC and ultimately implement an open auction platform similar to eBay. Module 1 serves as an intro to this unit, providing a primer for web development by reviewing canister messaging, HTTP requests, cycles, and autonomous canisters. Module 2 introduces students to the idea of an open auction platform and completes the majority of the backend required for such a project. In Module 3, students connect their backend code with a frontend accessible via browser. Finally, Module 4 has students implement an autonomous governance canister, that acts as the decentralized arbiter of our auction platform's feature upgrades.",
   "keywords": [],
+  "repository": "https://github.com/DFINITY-Education/web-development",
+  "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
     "build": "webpack"
   },
   "devDependencies": {
     "@dfinity/agent": "0.6.14",
+    "css-loader": "5.0.1",
     "eslint": "7.14.0",
+    "style-loader": "2.0.0",
     "eslint-plugin-react": "7.21.5",
     "terser-webpack-plugin": "4.1.0",
     "ts-loader": "8.0.11",
@@ -17,7 +21,10 @@
     "webpack-cli": "4.2.0"
   },
   "dependencies": {
+    "@egjs/react-infinitegrid": "3.0.6",
+    "bootstrap": "4.5.3",
     "react": "17.0.1",
+    "react-bootstrap": "1.4.0",
     "react-dom": "17.0.1"
   }
 }

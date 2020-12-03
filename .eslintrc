@@ -23,8 +23,16 @@
     "react"
   ],
 
+  "settings": {
+    "react": {
+      "version": "detect",
+    },
+  },
+
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
+    "eol-last": "warn",
+    "semi": "warn",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error"
   }
