@@ -1,39 +1,35 @@
-import React from "react";
+import * as React from "react";
+import PropTypes from 'prop-types';
+import Form from "react-bootstrap/Form";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 import Grid from "./Grid";
 
-const Home = () => {
-  let itemList = this.state.items.map( (item) => {
-    return(
-      <div className="card" key={item.id}>
-        <div className="card-image">
-          <img src={item.img} alt={item.title}/>
-          <span className="card-title">{item.title}</span>
-          <span to="/" className="btn-floating halfway-fab waves-effect waves-light red" onClick={() => this.handleClick(item.id)}>
-            <i className="material-icons">add</i>
-          </span>
-        </div>
-
-        <div className="card-content">
-          <p>{item.desc}</p>
-          <p><b>Price: {item.price}$</b></p>
-        </div>
-      </div>
-    );
-  });
+const Home = (props) => {
 
   return (
-    // <div className="container">
-    //   <h3 className="center">Auctions</h3>
-    //   <div className="box">
-    //       {itemList}
-    //   </div>
-    // </div>
     <>
-      <h3 className="center">Auctions</h3>
-      <Grid/>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand href="#home">Auctions</Navbar.Brand>
+        <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+          <Form inline>
+            <Form.File 
+              id="custom-file"
+              label="Image Upload"
+              custom
+            />
+          </Form>
+        </NavDropdown>
+      </Navbar>
+      <div className='mt-5' />
+      <Grid itemList={props.itemList} />
     </>
   );
+};
+
+Home.propTypes = {
+  itemList: PropTypes.array.isRequired,
 };
 
 export default Home;

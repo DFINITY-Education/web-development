@@ -1,38 +1,29 @@
-import React from "react";
+import * as React from "react";
+import PropTypes from "prop-types";
 import { GridLayout } from "@egjs/react-infinitegrid";
 
-import { Item } from "./Item";
+import Item from "./Item";
 
-const Grid = () => {
+const Grid = (props) => {
   return (
     <GridLayout
-      tag = "div"
-      useFirstRender={false}
-      loading={<div>Loading...</div>}
       options={{
-        threshold: 100,
-        isOverflowScroll: false,
-        isEqualSize: false,
-        isContantSize: false,
-        useFit: false,
-        useRecycle: false,
-        horizontal: false,
+        isConstantSize: true,
+        transitionDuration: 0.2,
       }}
       layoutOptions={{
-        align: "justify",
-      }}
-      // onAppend = {e => append}
-      // onPrepend = {e => append}
-      // onLayoutComplete = {e => layoutComplete}
-      // onImageError = {e => imageError}
-      // onChange = {e => chnage}
-    >
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-    </GridLayout>
+        margin: 10,
+        align: "center",
+    }}>{
+      props.itemList.map(
+        (item, index) => <Item key={index} name={item.name} description={item.description} imageUrl={item.imageUrl} minBid={item.minBid} />,
+      )
+    }</GridLayout>
   );
+};
+
+Grid.propTypes = {
+  itemList: PropTypes.array.isRequired,
 };
 
 export default Grid;
