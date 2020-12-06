@@ -3,7 +3,7 @@ import web_development from 'ic:canisters/web_development';
 
 import Home from './components/Home';
 
-const itemList = [
+const list = [
   {
     name: "Bat",
     description: "Something about baseball",
@@ -22,11 +22,25 @@ const itemList = [
     imageUrl: "https://www.watershedcabins.com/uploads/for-sale-sign-e1509648047898-400x234.jpg",
     minBid: 10000,
   },
+  {
+    name: "Rat",
+    description: "Friends with the chef",
+    imageUrl: "https://www.watershedcabins.com/uploads/for-sale-sign-e1509648047898-400x234.jpg",
+    minBid: 10000,
+  },
+  {
+    name: "Rat",
+    description: "Friends with the chef",
+    imageUrl: "https://www.watershedcabins.com/uploads/for-sale-sign-e1509648047898-400x234.jpg",
+    minBid: 10000,
+  },
 ];
 
 const App = () => {
+  const [itemList, setitemList] = React.useState(list);
+
   return (
-    <Home itemList={itemList} />
+    <Home itemList={itemList} setter={setitemList} />
   );
 };
 
