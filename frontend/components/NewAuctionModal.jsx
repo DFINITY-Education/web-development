@@ -1,28 +1,31 @@
 import * as React from "react";
-import PropTypes from 'prop-types';
+import {useState} from "react";
+import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 const NewAuctionModal = ({show, onHide, addToAuctions}) => {
-  const [validated, setValidated] = React.useState(false);
+  const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    const form = event.currentTarget;
-    const formData = new FormData(event.target);
-    const formDataObj = Object.fromEntries(formData.entries());
-    formDataObj.minBid = 0;
-    formDataObj.imageUrl = "https://www.watershedcabins.com/uploads/for-sale-sign-e1509648047898-400x234.jpg";
-
-    addToAuctions(currentItemList => [...currentItemList, formDataObj]);
+    const form = event.target;
 
     if (form.checkValidity() === true) {
+      const formData = new FormData(event.target);
+      const formDataObj = Object.fromEntries(formData.entries());
+      formDataObj.minBid = 0;
+      formDataObj.imageUrl = formDataObj.image.size > 0 ? URL.createObjectURL(formDataObj.image) : "https://www.watershedcabins.com/uploads/for-sale-sign-e1509648047898-400x234.jpg";
+
+      addToAuctions(currentItemList => [...currentItemList, formDataObj]);
+
+      setValidated(true);
       onHide();
+      form.reset();
     }
-    setValidated(true);
   };
 
   return (
@@ -56,7 +59,7 @@ const NewAuctionModal = ({show, onHide, addToAuctions}) => {
           <Form.Group>
             <Form.File name="image" label="Image Upload (optional)" />
           </Form.Group>
-          <Button className="align-self-end" type="submit">Submit form</Button>
+          <Button className="float-right" type="submit">Submit form</Button>
         </Form>
       </Modal.Body>
     </Modal>

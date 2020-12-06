@@ -16,13 +16,14 @@ const Grid = (props) => {
         align: "center",
     }}>{
       props.itemList.map(
-        (item, index) => <Item key={index} name={item.name} description={item.description} imageUrl={item.imageUrl} minBid={item.minBid} />,
+        item => <Item key={props.auctionId} name={item.name} description={item.description} imageUrl={item.imageUrl} minBid={item.minBid} />,
       )
     }</GridLayout>
   );
 };
 
 Grid.propTypes = {
+  auctionId: PropTypes.number.isRequired,
   itemList: PropTypes.array.isRequired,
 };
 
