@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import web_development from 'ic:canisters/web_development';
 
 const NewAuctionModal = ({show, onHide, addToAuctions}) => {
   const [validated, setValidated] = useState(false);
