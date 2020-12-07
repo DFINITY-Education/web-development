@@ -36,9 +36,6 @@ const Item = ({ name, description, imageUrl }) => {
     const formDataObj = Object.fromEntries(formData.entries());
     const bid = formDataObj.bid;
 
-    console.log(validInput);
-    console.log(bid);
-
     if (validInput && bid > currentBid) {
       if (!isLoading) setLoading(true);
       setCurrentBid(bid);
