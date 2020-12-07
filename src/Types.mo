@@ -11,8 +11,8 @@ module {
   public type Auction = {
     owner: UserId;
     item: Item;
-    var highestBid: Nat;
-    var highestBidder: ?UserId;
+    highestBid: Nat;
+    highestBidder: ?UserId;
     ttl: Int;
   };
 

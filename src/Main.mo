@@ -1,4 +1,5 @@
 import Option "mo:base/Option";
+import Prim "mo:prim";
 import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 
@@ -15,6 +16,8 @@ actor {
   type Balances = Balances.Balances;
   type Governor = Governor.Governor;
   type GovError = Types.GovError;
+  type AuctionId = Types.AuctionId;
+  type Auction = Types.Auction;
 
   var app : ?App = null;
   var balances : ?Balances = null;
@@ -25,9 +28,23 @@ actor {
     await tempBalances.deposit(msg.caller, 100);
     let tempApp = await App.App(Principal.fromActor(tempBalances));
 
+    tempApp.auctionItem(
+      Principal.fromActor(tempApp),
+      "example name",
+      "example description",
+      ""
+    );
+
     app := ?tempApp;
     balances := ?tempBalances;
     governor := ?(await Governor.Governor(Principal.fromActor(tempApp), 0.5));
+  };
+
+  public func getAuctions() : async ([(AuctionId, Auction)]) {
+    switch (app) {
+      case (null) throw Prim.error("Should call setup() first");
+      case (?a) { await a.getAuctions() };
+    }
   };
 
   public shared(msg) func migrate(propNum: Nat) : async (Result<(), GovError>) {

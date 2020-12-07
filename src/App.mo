@@ -1,6 +1,7 @@
 import Array "mo:base/Array";
 import Hash "mo:base/Hash";
 import HashMap "mo:base/HashMap";
+import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
 import Principal "mo:base/Principal";
 import Time "mo:base/Time";
@@ -10,16 +11,21 @@ import Types "./Types";
 
 actor class App(balancesAddr: Principal) = App {
 
-  type AuctionId = Types.AuctionId;
-  type UserId = Types.UserId;
   type Auction = Types.Auction;
+  type AuctionId = Types.AuctionId;
   type Item = Types.Item;
   type Result = Types.Result;
+  type UserId = Types.UserId;
 
   let balances = actor (Principal.toText(balancesAddr)) : Balances.Balances;
 
   let auctions = HashMap.HashMap<AuctionId, Auction>(1, Nat.equal, Hash.hash);
   var auctionCounter = 0;
+
+  public query func getAuctions() : async ([(AuctionId, Auction)]) {
+    let entries = auctions.entries();
+    Iter.toArray<(AuctionId, Auction)>(entries)
+  };
 
   /// Creates a new item and corresponding auction.
   /// Args:
@@ -27,16 +33,14 @@ actor class App(balancesAddr: Principal) = App {
   ///   |name|         The item's name.
   ///   |description|  The item's description.
   ///   |url|          The URL the auction can be accesses at.
-  ///   |startingBid|  The starting bid amount.
   public func auctionItem(
     owner: UserId,
     name: Text,
     description: Text,
     url: Text,
-    startingBid: Nat
   ) {
     let item = makeItem(name, description, url);
-    let auction = makeAuction(owner, item, startingBid);
+    let auction = makeAuction(owner, item);
     auctions.put(auctionCounter, auction);
     auctionCounter += 1;
   };
@@ -60,7 +64,7 @@ actor class App(balancesAddr: Principal) = App {
       case (?auction) {
         switch (auction.highestBidder) {
           case (null) {
-            auctions.put(auctionId, setNewBidder(auction, bidder, amount));
+            auctions.put(auctionId, setNewBidder(auction, amount, bidder));
             #ok()
           };
           case (?previousHighestBidder) {
@@ -68,7 +72,7 @@ actor class App(balancesAddr: Principal) = App {
               let myPrincipal = Principal.fromActor(App);
               ignore balances.transfer(bidder, myPrincipal, amount);
               ignore balances.transfer(myPrincipal, previousHighestBidder, auction.highestBid);
-              auctions.put(auctionId, setNewBidder(auction, bidder, amount));
+              auctions.put(auctionId, setNewBidder(auction, amount, bidder));
               #ok()
             } else {
               #err(#belowMinimumBid)
@@ -104,14 +108,12 @@ actor class App(balancesAddr: Principal) = App {
   func makeAuction(
     _owner: UserId,
     _item: Item,
-    _startingBid: Nat,
   ) : (Auction) {
     {
       owner = _owner;
       item = _item;
-      startingBid = _startingBid;
-      var highestBid = 0;
-      var highestBidder : ?Principal = null;
+      highestBid = 0;
+      highestBidder = null;
       ttl = Time.now() + (3600 * 1000_000_000);
     }
   };
@@ -123,10 +125,14 @@ actor class App(balancesAddr: Principal) = App {
   ///   |bid|      The highest bid of the auction.
   /// Returns:
   ///   The updated Auction (see Auction in Types.mo)
-  func setNewBidder(auction: Auction, bidder: Principal, bid: Nat) : (Auction) {
-    auction.highestBid := bid;
-    auction.highestBidder := ?bidder;
-    auction
+  func setNewBidder(auction: Auction, bid: Nat, bidder: Principal) : (Auction) {
+    {
+      owner = auction.owner;
+      item = auction.item;
+      highestBid = bid;
+      highestBidder = ?bidder;
+      ttl = auction.ttl;
+    }
   };
 
 };
