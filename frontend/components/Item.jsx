@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState, useEffect, useRef} from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -25,7 +25,11 @@ const Item = ({ name, description, imageUrl }) => {
 
   const checkInput = (event) => {
     const val = event.target.value;
-    setValidInput(!isNaN(val) && parseInt(Number(val)) == val && !isNaN(parseInt(val, 10)));
+    setValidInput(
+      !isNaN(val) &&
+      parseInt(Number(val)) == val &&
+      !isNaN(parseInt(val, 10)) &&
+      val > currentBid);
   };
 
   const handleSubmit = (event) => {
@@ -36,12 +40,11 @@ const Item = ({ name, description, imageUrl }) => {
     const formDataObj = Object.fromEntries(formData.entries());
     const bid = formDataObj.bid;
 
-    if (validInput && bid > currentBid) {
+    if (validInput) {
       if (!isLoading) setLoading(true);
       setCurrentBid(bid);
       formRef.current.reset();
     }
-    // setValidInput(false);
   };
 
   return (

@@ -1,16 +1,31 @@
 import * as React from "react";
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import web_development from 'ic:canisters/web_development';
 
-import Home from './components/Home';
+import Grid from "./components/Grid";
+import AuctionNavbar from "./components/AuctionNavbar";
 
-const App = async () => {
-  await web_development.setup();
-  const appAuctionList = await web_development.getAuctions();
-  const [itemList, setitemList] = useState(appAuctionList);
+const App = () => {
+  const [itemList, setitemList] = useState([]);
+
+  useEffect(() => {
+    if (itemList.length === 0) {
+      setup();
+    }
+  }, []);
+
+  const setup = async () => {
+    await web_development.setup();
+    const appAuctionList = await web_development.getAuctions();
+    setitemList(appAuctionList);
+  };
 
   return (
-    <Home itemList={itemList} setter={setitemList} />
+    <>
+      <AuctionNavbar setter={setitemList} />
+      <div className='mt-5' />
+      <Grid itemList={itemList} />
+    </>
   );
 };
 
