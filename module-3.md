@@ -32,19 +32,19 @@ The `Item` component takes in a `name`, `description`, and `imageURL` and create
 
 `Item.jsx` also contains the function `bidOnAuction()`, which you will ultimately implement, that updates our `App` canister with new bids once a bid is submitted on the frontend. 
 
-#### `AuctionNavbar`
+#### `AuctionNavbar.jsx`
 
 The `AuctionNavbar` component takes in a `props` parameter and creates a [Bootstrap Navbar](https://getbootstrap.com/docs/4.0/components/navbar/) to enable easy page navigation. When we call `AuctionNavbar` in `App.jsx` and set `setter={setItemList}`, we are essentially passing the `setItemList` to our `AuctionNavbar` component, which we can access with `prop.setter` in `AuctionNavbar.jsx`. We use this function to modify our `itemList`, which we defined in `App.jsx`, when we create a new auction. 
 
 You'll notice that this Navbar includes a button on the far-right used to create a new auction. When this button is clicked, we display a `NewAuctionModal` component (which we will discuss next).
 
-#### `NewAuctionModal`
+#### `NewAuctionModal.jsx`
 
 The `NewAuctionModal` component takes in three parameters, `show`, `onHide`, and `addToAuctions`, and creates a [Bootstrap Modal](https://getbootstrap.com/docs/4.0/components/modal/), a pop-up box that allows users to create a new auction. The important parameter here is `addToAuctions`, which stores the function `setItemList` that allows us to modify the `itemList` when a user enters a new auction.
 
 We also have the function `addAuction`, left for you to implement, which updates our `App` canister to store a new auction once a user enters its info on the frontend.
 
-#### `Grid`
+#### `Grid.jsx`
 
 The `Grid` component, similar to `AuctionNavbar`, accepts a `props` parameter that we can use to access relevant characteristics of the `itemList` and then creates an [infinite grid](https://www.npmjs.com/package/@egjs/react-infinitegrid) to display our auction cards. Again, the specific implementation isn't particularly relevant, but notice how we access the `name`, `description`, and `imageUrl` fields for each item in our `itemList` to create its corresponding card. 
 
