@@ -9,7 +9,7 @@
     "build": "webpack"
   },
   "devDependencies": {
-    "@dfinity/agent": "0.6.14",
+    "@dfinity/agent": "0.6.16",
     "css-loader": "5.0.1",
     "eslint": "7.14.0",
     "style-loader": "2.0.0",

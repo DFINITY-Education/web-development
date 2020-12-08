@@ -1,28 +1,32 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+
 import web_development from 'ic:canisters/web_development';
 
 import Grid from "./components/Grid";
 import AuctionNavbar from "./components/AuctionNavbar";
 
+/** Retrieves auctions from App canister. */
+async function getAuctions() {
+  // YOUR CODE HERE
+}
+
 const App = () => {
-  const [itemList, setitemList] = useState([]);
+  const [itemList, setItemList] = useState([]);
 
   useEffect(() => {
-    if (itemList.length === 0) {
-      setup();
+    async function setup() {
+      await web_development.setup();
+      const auctionList = await web_development.getAuctions();
+      console.log(auctionList);
+      setItemList(auctionList);
     }
+    setup();
   }, []);
-
-  const setup = async () => {
-    await web_development.setup();
-    const appAuctionList = await web_development.getAuctions();
-    setitemList(appAuctionList);
-  };
 
   return (
     <>
-      <AuctionNavbar setter={setitemList} />
+      <AuctionNavbar setter={setItemList} />
       <div className='mt-5' />
       <Grid itemList={itemList} />
     </>

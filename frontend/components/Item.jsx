@@ -1,35 +1,29 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 
-const simulateNetworkRequest = () => {
-  return new Promise((resolve) => setTimeout(resolve, 1000));
-};
+import web_development from 'ic:canisters/web_development';
+
+/** Bids on an existing auction in the App canister. */
+async function bidOnAuction() {
+  // YOUR CODE HERE
+}
 
 const Item = ({ name, description, imageUrl }) => {
   let [currentBid, setCurrentBid] = useState(0);
-  const [isLoading, setLoading] = useState(false);
   const [validInput, setValidInput] = useState(false);
   const formRef = useRef(null);
-
-  useEffect(() => {
-    if (isLoading) {
-      simulateNetworkRequest().then(() => {
-        setLoading(false);
-      });
-    }
-  }, [isLoading]);
 
   const checkInput = (event) => {
     const val = event.target.value;
     setValidInput(
-      !isNaN(val) &&
-      parseInt(Number(val)) == val &&
-      !isNaN(parseInt(val, 10)) &&
-      val > currentBid);
+      !isNaN(val)
+      && parseInt(Number(val)) == val
+      && !isNaN(parseInt(val, 10))
+      && val > currentBid);
   };
 
   const handleSubmit = (event) => {
@@ -41,7 +35,6 @@ const Item = ({ name, description, imageUrl }) => {
     const bid = formDataObj.bid;
 
     if (validInput) {
-      if (!isLoading) setLoading(true);
       setCurrentBid(bid);
       formRef.current.reset();
     }
@@ -69,8 +62,8 @@ const Item = ({ name, description, imageUrl }) => {
           <Button
             variant={validInput ? "primary" : "secondary"}
             type="submit"
-            disabled={isLoading || !validInput}>{
-              isLoading ? "Bidding..." : "Bid"
+            disabled={!validInput}>{
+              "Bid"
           }</Button>
         </Form>
       </Card.Body>

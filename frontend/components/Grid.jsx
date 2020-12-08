@@ -16,7 +16,7 @@ const Grid = (props) => {
         align: "center",
     }}>{
       props.itemList.map(
-        item => <Item key={props.auctionId} name={item.name} description={item.description} imageUrl={item.imageUrl} minBid={item.minBid} />,
+        item => <Item key={props.auctionId} name={item.name} description={item.description} imageUrl={item.imageUrl} />,
       )
     }</GridLayout>
   );

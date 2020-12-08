@@ -1,13 +1,20 @@
 import * as React from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+
 import web_development from 'ic:canisters/web_development';
+
+/** Puts a new item up for auction in the App canister. */
+async function addAuction() {
+  // YOUR CODE HERE
+}
 
 const NewAuctionModal = ({show, onHide, addToAuctions}) => {
   const [validated, setValidated] = useState(false);
+  const formRef = useRef(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +32,7 @@ const NewAuctionModal = ({show, onHide, addToAuctions}) => {
 
       setValidated(true);
       onHide();
-      form.reset();
+      formRef.current.reset();
     }
   };
 
@@ -35,7 +42,7 @@ const NewAuctionModal = ({show, onHide, addToAuctions}) => {
         <Modal.Title>New Auction</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form ref={formRef} noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Label>Item Name</Form.Label>
             <Form.Control
