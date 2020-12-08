@@ -44,11 +44,11 @@ The auction app itself it relatively straightforward: we maintain individual `Au
 
 #### `Governor.mo`
 
-Our `Governor` canister manages proposed upgrades to our application. See the [Autonomous Canisters](/module-1.md#Autonomous-Canisters) section in Module 1 for a more in-depth discussion of this. This file isn't needed for your work in Module 2 - we will revisit it within Module 4. 
+Our `Governor` canister manages proposed upgrades to our application. See the [Autonomous Canisters](/module-1.md#Autonomous-Canisters) section in Module 1 for a more in-depth discussion of this. This file isn't needed for your work in Module 2 - we will revisit it within [Module 4](/module-4.md). 
 
 ####  `Main.mo` 
 
-`main.mo` has one function, `setup`, which calls the constructors of the relevant canisters needed to create the entire application - namely, we need to establish a `Balances` canister to store balances, an `App` canister to control the actual process of creating and managing auctions,  a `Governor` to control the governance structure for automated upgrades, and a `balancesGov` to ...
+`main.mo` has one function, `setup`, which calls the constructors of the relevant canisters needed to create the entire application - namely, we need to establish a `Balances` canister to store balances, an `App` canister to control the actual process of creating and managing auctions,  and a `Governor` to control the governance structure for automated upgrades.
 
 ### Specification
 
@@ -70,7 +70,7 @@ Our `Governor` canister manages proposed upgrades to our application. See the [A
 * Finally, check that the new bid amount is greater than the auction's current bid. If it is, then update the corresponding `Auction` accordingly. If not, return `#err(#belowMinimumBid)`.
   * You will likely find the `setNewBidder` helper that we've defined useful in updating the `Auction`.
 
-### Testing
+### Deploying
 
 Take a look at the [Developer Quick Start Guide](https://sdk.dfinity.org/docs/quickstart/quickstart.html) if you'd like a quick refresher on how to run programs on a locally-deployed IC network. 
 
@@ -115,7 +115,7 @@ Follow these steps to deploy your canisters and launch the front end. If you run
 To test your canister, first execute the following:
 
 ```bash
-> dfx canister call web_development startup
+> dfx canister call web_development setup
 ()
 ```
 
