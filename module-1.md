@@ -12,8 +12,6 @@
 
 ## Developer Experience in the Legacy IT Stack
 
-[TODO - MOVE TO IC APPLICATION MONTH]
-
 ![Developer Experience - Death By a Thousand Cuts](images/dev-exp.png)
 
 *The many pain-points of developing a web application on a service like Ethereum.* 
