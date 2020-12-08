@@ -117,4 +117,4 @@ To access the front-end of your application, open a browser and paste:
 http://127.0.0.1:8000/?canisterId=CANISTER_ID
 ```
 
- Replacing `CANISTER_ID` with the identifier of your ##### canister. The identifier should take the general form of `cxeji-wacaa-aaaaa-aaaaa-aaaaa-aaaaa-aaaaa-q`. 
+Replacing `CANISTER_ID` with the identifier of your `web_development_assets` canister. The identifier should take the general form of `cxeji-wacaa-aaaaa-aaaaa-aaaaa-aaaaa-aaaaa-q`.

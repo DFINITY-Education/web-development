@@ -23,6 +23,7 @@ actor {
   var balances : ?Balances = null;
   var governor : ?Governor = null;
 
+  // Performs initial setup operations by instantiating the Balances, App, and Governor canisters
   public shared(msg) func setup() : async () {
     let tempBalances = await Balances.Balances();
     await tempBalances.deposit(msg.caller, 100);

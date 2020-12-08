@@ -2,10 +2,6 @@
 
 In this Module, you will implement an auction platform, similar to an open version of eBay, as a web application. 
 
-
-
-*[Insert photo of rudimentary front-end view]*
-
 ## Your Task
 
 We have provided you with an incomplete base canister and rudimentary front end - your job is to implement the necessary methods to get the application functioning correctly.
@@ -114,12 +110,41 @@ Follow these steps to deploy your canisters and launch the front end. If you run
    dfx deploy
    ```
 
-#### Front-End Testing
+#### Testing
 
-To access the front-end of your application, open a browser and paste:
+To test your canister, first execute the following:
 
+```bash
+> dfx canister call web_development startup
+()
 ```
-http://127.0.0.1:8000/?canisterId=CANISTER_ID
+
+This command runs the `setup()` function in `Main.mo`, which instantiates the Balances, App, and Governor canisters and initializes them with starting values. 
+
+The `public` functions in `Main.mo` allow us to interface with our `web_development` canister. As a result, these are the methods you should call in the command-line interface to test your implementation.
+
+For example, if you wanted to get the current auctions, you could run:
+
+```bash
+> dfx canister call web_development getAuctions
+(
+  vec {
+    record {
+      0;
+      record {
+        ttl = 1_607_433_131_205_568_000;
+        highestBidder = null;
+        owner = principal "qaa6y-5yaaa-aaaaa-aaafa-cai";
+        item = record {
+          url = "";
+          name = "example name";
+          description = "example description";
+        };
+        highestBid = 0;
+      };
+    };
+  },
+)
 ```
 
- Replacing `CANISTER_ID` with the identifier of your ##### canister. The identifier should take the general form of `cxeji-wacaa-aaaaa-aaaaa-aaaaa-aaaaa-aaaaa-q`.
+If you need a refresher on calling functions that require arguments, see this [DFINITY SDK](https://sdk.dfinity.org/docs/developers-guide/tutorials/hello-location.html) guide.
