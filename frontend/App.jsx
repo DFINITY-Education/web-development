@@ -16,6 +16,7 @@ const App = () => {
 
   useEffect(() => {
     async function setup() {
+      console.log("in setup");
       await web_development.setup();
       const auctionList = await web_development.getAuctions();
       console.log(auctionList);

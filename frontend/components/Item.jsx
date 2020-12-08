@@ -23,7 +23,7 @@ const Item = ({ name, description, imageUrl }) => {
       !isNaN(val)
       && parseInt(Number(val)) == val
       && !isNaN(parseInt(val, 10))
-      && val > currentBid);
+      && parseInt(val) > currentBid);
   };
 
   const handleSubmit = (event) => {
@@ -32,11 +32,12 @@ const Item = ({ name, description, imageUrl }) => {
 
     const formData = new FormData(event.target);
     const formDataObj = Object.fromEntries(formData.entries());
-    const bid = formDataObj.bid;
+    const bid = parseInt(formDataObj.bid);
 
     if (validInput) {
       setCurrentBid(bid);
       formRef.current.reset();
+      setValidInput(false);
     }
   };
 
@@ -52,7 +53,6 @@ const Item = ({ name, description, imageUrl }) => {
               name="bid"
               type="number"
               onChange={checkInput}
-              min="1"
               placeholder="Bid Amount"
             />
             <Form.Text className="text-muted">
