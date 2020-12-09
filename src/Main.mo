@@ -1,4 +1,5 @@
 import Option "mo:base/Option";
+import Debug "mo:base/Debug";
 import Prim "mo:prim";
 import Principal "mo:base/Principal";
 import Result "mo:base/Result";
@@ -24,26 +25,48 @@ actor {
   var governor : ?Governor = null;
 
   // Performs initial setup operations by instantiating the Balances, App, and Governor canisters
-  public shared(msg) func setup() : async () {
-    let tempBalances = await Balances.Balances();
-    await tempBalances.deposit(msg.caller, 100);
-    let tempApp = await App.App(Principal.fromActor(tempBalances));
+  public shared(msg) func deployBalances() : async () {
+    switch (balances) {
+      case (?bal) Debug.print("Already deployed");
+      case (_) {
+        let tempBalances = await Balances.Balances();
+        await tempBalances.deposit(msg.caller, 100);
+        balances := ?tempBalances;
+      };
+    }
+  };
 
-    tempApp.auctionItem(
-      Principal.fromActor(tempApp),
-      "example name",
-      "example description",
-      ""
-    );
+  public func deployApp() : async () {
+    switch (app, balances) {
+      case (?a, _) Debug.print("Already deployed");
+      case (_, null) Debug.print("Should call deployBalances() first");
+      case (_, ?bal) {
+        let tempApp = await App.App(Principal.fromActor(bal));
+        tempApp.auctionItem(
+          Principal.fromActor(tempApp),
+          "example name",
+          "example description",
+          ""
+        );
 
-    app := ?tempApp;
-    balances := ?tempBalances;
-    governor := ?(await Governor.Governor(Principal.fromActor(tempApp), 0.5));
+        app := ?tempApp;
+      };
+    }
+  };
+
+  public func deployGovernor() : async () {
+    switch (governor, balances) {
+      case (?gov, _) Debug.print("Already deployed");
+      case (_, null) Debug.print("Should call deployBalances() first");
+      case (_, ?bal) {
+        governor := ?(await Governor.Governor(Principal.fromActor(bal), 0.5));
+      };
+    }
   };
 
   public func getAuctions() : async ([(AuctionId, Auction)]) {
     switch (app) {
-      case (null) throw Prim.error("Should call setup() first");
+      case (null) throw Prim.error("Should call deployApp() first");
       case (?a) { await a.getAuctions() };
     }
   };

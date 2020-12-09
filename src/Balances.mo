@@ -52,7 +52,7 @@ shared(msg) actor class Balances() {
   ///   |amount| The amount of money to be deposited.
   public shared(msg) func deposit(user: UserId, amount: Nat) : async () {
     assert (owner == msg.caller);
-    userIdToBalance.put(user, (await getBalance(user)) + amount);
+    userIdToBalance.put(user, (_getBalance(user)) + amount);
   };
 
   /// Retrieves the balance of the given |user|. Used as a helper function for other methods in this actor.

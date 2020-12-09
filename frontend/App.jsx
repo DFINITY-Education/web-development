@@ -17,10 +17,15 @@ const App = () => {
   useEffect(() => {
     async function setup() {
       console.log("in setup");
-      await web_development.setup();
+      await web_development.deployBalances();
+      console.log("after deployBalances");
+      await web_development.deployApp();
+      console.log("after deployApp");
+      await web_development.deployGovernor();
+      console.log("after deployGovernor");
       const auctionList = await web_development.getAuctions();
       console.log(auctionList);
-      setItemList(auctionList);
+      setItemList([auctionList[1].item]);
     }
     setup();
   }, []);
