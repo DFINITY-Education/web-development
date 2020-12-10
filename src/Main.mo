@@ -64,6 +64,21 @@ actor {
     }
   };
 
+  public func deployAll() : async () {
+    ignore async {
+      await deployBalances();
+      await deployApp();
+      await deployGovernor();
+    };
+  };
+
+  public query func isReady() : async Bool {
+    switch(balances, app, governor) {
+      case (? _, ? _, ? _) true;
+      case _ false;
+    }
+  };
+
   public func getAuctions() : async ([(AuctionId, Auction)]) {
     switch (app) {
       case (null) throw Prim.error("Should call deployApp() first");

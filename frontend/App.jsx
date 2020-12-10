@@ -16,6 +16,7 @@ const App = () => {
 
   useEffect(() => {
     async function setup() {
+    /*
       console.log("in setup");
       await web_development.deployBalances();
       console.log("after deployBalances");
@@ -23,7 +24,15 @@ const App = () => {
       console.log("after deployApp");
       await web_development.deployGovernor();
       console.log("after deployGovernor");
+    */
+      web_development.deployAll();
+      console.log("initiated deployAll");
+      while (!(await web_development.isReady())) {
+        await new Promise(r => setTimeout(r, 2000));
+        console.log("polled isReady");
+      };
       const auctionList = await web_development.getAuctions();
+      console.log("after getAuctions");
       console.log(auctionList);
       setItemList([auctionList[1].item]);
     }
