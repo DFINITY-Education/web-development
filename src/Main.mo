@@ -64,14 +64,16 @@ actor {
     }
   };
 
+  // deployAll() replies immediately after initiating but not awaiting the asynchronous deployments
   public func deployAll() : async () {
     ignore async {
       await deployBalances();
-      await deployApp();
-      await deployGovernor();
+      ignore deployApp(); // requires Balances
+      ignore deployGovernor(); // requires Balances
     };
   };
 
+  // isReady() replies promptly (and is a cheap query)
   public query func isReady() : async Bool {
     switch(balances, app, governor) {
       case (? _, ? _, ? _) true;

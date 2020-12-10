@@ -25,16 +25,17 @@ const App = () => {
       await web_development.deployGovernor();
       console.log("after deployGovernor");
     */
-      web_development.deployAll();
+      await web_development.deployAll(); // responds promptly
       console.log("initiated deployAll");
+      // poll until isReady()
       while (!(await web_development.isReady())) {
-        await new Promise(r => setTimeout(r, 2000));
         console.log("polled isReady");
+        await new Promise(r => setTimeout(r, 2000));
       };
       const auctionList = await web_development.getAuctions();
       console.log("after getAuctions");
       console.log(auctionList);
-      setItemList([auctionList[1].item]);
+      setItemList([auctionList[1].item]); // unrelated existing bug here?
     }
     setup();
   }, []);
