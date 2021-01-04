@@ -16,6 +16,7 @@ const App = () => {
 
   useEffect(() => {
     async function setup() {
+    /*
       console.log("in setup");
       await web_development.deployBalances();
       console.log("after deployBalances");
@@ -23,9 +24,18 @@ const App = () => {
       console.log("after deployApp");
       await web_development.deployGovernor();
       console.log("after deployGovernor");
+    */
+      await web_development.deployAll(); // responds promptly
+      console.log("initiated deployAll");
+      // poll until isReady()
+      while (!(await web_development.isReady())) {
+        console.log("polled isReady");
+        await new Promise(r => setTimeout(r, 2000));
+      };
       const auctionList = await web_development.getAuctions();
+      console.log("after getAuctions");
       console.log(auctionList);
-      setItemList([auctionList[1].item]);
+      setItemList([auctionList[1].item]); // unrelated existing bug here?
     }
     setup();
   }, []);

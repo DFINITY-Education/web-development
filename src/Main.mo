@@ -64,6 +64,23 @@ actor {
     }
   };
 
+  // deployAll() replies immediately after initiating but not awaiting the asynchronous deployments
+  public func deployAll() : async () {
+    ignore async {
+      await deployBalances();
+      ignore deployApp(); // requires Balances
+      ignore deployGovernor(); // requires Balances
+    };
+  };
+
+  // isReady() replies promptly (and is a cheap query)
+  public query func isReady() : async Bool {
+    switch(balances, app, governor) {
+      case (? _, ? _, ? _) true;
+      case _ false;
+    }
+  };
+
   public func getAuctions() : async ([(AuctionId, Auction)]) {
     switch (app) {
       case (null) throw Prim.error("Should call deployApp() first");
