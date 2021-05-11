@@ -6,7 +6,7 @@ In this module, you will build upon your work from modules 2 and 3 by implementi
 
 Refer to our section on [Autonomous Canisters](/module-1.md#Autonomous-Canisters) in Module 1 for a quick intro to this topic.
 
-We ultimately want to create an automated canister that allows stakeholders to propose changes to our `App.mo` file. The governance canister enables these stakeholders to then vote on open proposals and will automatically migrate `App.mo` and replace it with the new, proposed file. This enables us to create "autonomous" system by which edits are suggested and then voted upon, ensuring that stakeholders will have guaranteed say in the process if initially given that power. 
+We ultimately want to create an automated canister that allows stakeholders to propose changes to our `App.mo` file. The governance canister enables these stakeholders to then vote on open proposals and will automatically migrate `App.mo` and replace it with the new, proposed file. This enables us to create an "autonomous" system by which edits are suggested and then voted upon, ensuring that stakeholders will have a guaranteed say in the process if initially given that power. 
 
 ## Your Task
 
@@ -20,10 +20,10 @@ First, begin by studying the `Proposal ` variant type in `Types.mo` - possessing
 
 * `newApp` is the canister id of the proposed changed to `App.mo` (in the form of any entirely new canister).
 * `proposer` is the id of the canister creating the proposal. 
-* `ttl`, which stand for time to live, signals the amount of time the proposal has before being cancelled. If a proposal isn't passed before we reach the specified `ttl` (which is a fixed time in the future, not a "countdown"), then the proposal is cancelled.
+* `ttl`, which stands for time to live, signals the amount of time the proposal has before being canceled. If a proposal isn't passed before we reach the specified `ttl` (which is a fixed time in the future, not a "countdown"), then the proposal is canceled.
 * `status` stores a `ProposalStatus` variant type, which (also defined in `Types.mo`) can be in one of four states:
   * `#active`: voting is ongoing.
-  * `#cancelled`: the proposal was retracted by either the proposal owner or the owner of the `Governor` canister.
+  * `#canceled`: the proposal was retracted by either the proposal owner or the owner of the `Governor` canister.
   * `#defeated`: the proposal was voted down by stakeholders.
   * `#succeeded`: the proposal passed.
 
@@ -35,9 +35,9 @@ let owner = msg.caller;
 
 The `Governor` constructor takes two parameters: `starterApp` and `VoteThreshold`. `starterApp` is the id of the canister that stores our `App` actor, while `voteThreshold`, a float between 0 and 1, specifies the proportion of votes that a proposal must receive in order to pass and be enacted.
 
-We create `proposals` to store all proposals that are proposed. Proposals remain in this list even after they have been cancelled, defeated, or succeeded.
+We create `proposals` to store all proposals that are proposed. Proposals remain in this list even after they have been canceled, defeated, or succeeded.
 
-The `propose` method, which has been implemented for you, accepts the id of a new proposed `App` canister. We use this `newApp` and the id of the canister that proposed it (stored in `msg.caller`) to create a new `Proposal` (which has been factored out by the helper `makeProposal`). Note that our `proposals` array is mutable, so we must first `freeze` the current array before appending our new `Proposal`. Finally, we `thaw` the array before reseting the value of `proposals`.
+The `propose` method, which has been implemented for you, accepts the id of a new proposed `App` canister. We use this `newApp` and the id of the canister that proposed it (stored in `msg.caller`) to create a new `Proposal` (which has been factored out by the helper `makeProposal`). Note that our `proposals` array is mutable, so we must first `freeze` the current array before appending our new `Proposal`. Finally, we `thaw` the array before resetting the value of `proposals`.
 
 `checkProposal` checks if the given proposal has exceeded its `ttl`, and, if so, runs the necessary calculation to determine if the proposal status should switch to `#succeeded` or `#defeated`. We have created `checkProposal` and `_checkProposal` to allow this function to both be used within the `Governor` canister (as a helper in `voteOnProposal`) and for external canister calls. `checkProposal` is for external calls (hence the `async` result) while `_checkProposal` is for internal canister use only.
 
