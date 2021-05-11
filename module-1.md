@@ -12,9 +12,9 @@
 
 ## Developer Experience in the Legacy IT Stack
 
-![Developer Experience - Death By a Thousand Cuts](images/dev-exp.png)
+<p align="center"><img src="images/dev-exp.png" height="300"/> </p>
 
-*The many pain-points of developing a web application on a service like Ethereum.* 
+<p align="center"> <i>The many pain-points of developing a web application on a service like Ethereum.</i></p>
 
 ## Developing on the IC
 
@@ -26,11 +26,11 @@ In writing web applications on the IC, developers need not maintain complex back
 
 ### Canister Messaging
 
-Canister messaging serves as the backbone for inter-canister communication, allowing canisters to query each other for information and update state. There are two types of inter-canisters messages on the IC: **query** calls and **update** calls. Query calls are designed with speed in mind: they run in roughly 10 milliseconds, and they don't change the state of the queried canister. Update calls change the state of a canister - they must go though consensus, so they, on average, take around 2 seconds to execute. 
+Canister messaging serves as the backbone for inter-canister communication, allowing canisters to query each other for information and update state. There are two types of inter-canisters messages on the IC: **query** calls and **update** calls. Query calls are designed with speed in mind: they run in roughly 10 milliseconds, and they don't change the state of the queried canister. Update calls change the state of a canister - they must go through consensus, so they, on average, take around 2 seconds to execute. 
 
 #### Query Calls
 
-![](images/query-calls.jpeg)
+<p align="center"><img src="images/query-calls.jpeg" height="300"/> </p>
 
 Query calls allow the user to query the current state of a canister or call a function that operates on the canister’s state **without changing it**.
 
@@ -41,7 +41,7 @@ Query calls allow the user to query the current state of a canister or call a fu
 
 #### Update Calls
 
-![](images/update-calls.jpeg)
+<p align="center"><img src="images/update-calls.jpeg" height="300"/> </p>
 
 Update calls allow the user to change the state of the canister and have **changes persisted**.
 
@@ -51,7 +51,7 @@ Update calls allow the user to change the state of the canister and have **chang
 
 ### HTTP Requests
 
-![](images/IC-request.png)
+<p align="center"><img src="images/IC-request.png" height="300"/> </p>
 
 Let's dive under the hood to get a better sense of how HTTP requests work on the IC. First, a client device queries a website, which using DNS is resolved into a list of IP addresses of the replica nodes in closest proximity that store the desired canister. The full HTTP request is passed to the replica, which performs a query call to the canister. Finally, the canister passes the HTTP response back to the replica, which is sent to the end user's device and decoded to display the relevant website info. 
 
@@ -61,14 +61,14 @@ All developers need to do is structure how their canisters should handle various
 
 In general, all canisters consume resources in the form of CPU cycles for execution, bandwidth for routing messages, and memory for persisted data. Canisters maintain an account balance to pay for the cost of communication, computation, and storage their applications consume. The cost of computation is referred to as **cycles**.
 
-Cycles reflects the real costs of operations including resources such physical hardware, rack space, energy,storage devices, and bandwidth. In simple terms, a **unit of cycles** represents the cost of executing a single WebAssembly instruction.
+Cycles reflect the real costs of operations, including resources such as physical hardware, rack space, energy, storage devices, and bandwidth. In simple terms, a **single cycle unit** represents the cost of executing a single WebAssembly instruction.
 
 - Programs must be able to pay for complete execution (all or nothing), but the cost associated with a unit of cycles will make efficient programs cost-effective.
 - By setting limits on how many cycles a canister can consume, the platform can prevent malicious code from draining resources
 
 The relative stability of operational costs makes it easier to predict the cycles required to process, for example, a million messages.
 
-As a developer it is important to understand that you need not "count cycles" when programming in the same way that you wouldn't measure the electricity required to run a program. Organizations that deploy canisters are expected to charge those canisters with a small amount of cycles and top them up on a regular basis, allowing one to understand the cost of a program on a longer timescale. 
+As a developer, it is important to understand that you need not "count cycles" when programming in the same way that you wouldn't measure the electricity required to run a program. Organizations that deploy canisters are expected to charge those canisters with a small number of cycles and top them up on a regular basis, allowing one to understand the cost of a program on a longer timescale. 
 
 ### Autonomous Canisters
 
@@ -83,7 +83,7 @@ As seen in these two examples, autonomous canisters have the power to guarantee 
 
 Here's a more in-depth overview of autonomous canisters, from the [DFINITY FAQ](https://dfinity.org/faq/how-can-the-internet-computer-undo-the-monopolization-of-the-internet):
 
-> But how will one of these new open internet services be created? For example, let’s imagine some entrepreneur wishes to create a replacement for LinkedIn on the Internet Computer. The first step they would probably take, is to create a basic prototype, since LinkedIn is no marvel of engineering, and then upload the software “canisters” involved to the Internet Computer. At this point, the entrepreneur retains control over the service because they have a cryptographic key that allows them to configure and upgrade its systems. However, they would then upload an autonomous tokenized governance canister, and then irrevocably transfer control of the new service to this (so that it becomes part of that autonomous system). Of course, at this stage they would hold all the governance tokens, but their aim would be to divest themselves of tokens over time to fund development and incentivize contributors, such that eventually they hold only a minority stake and the service becomes truly “open”.
+> But how will one of these new open internet services be created? For example, let’s imagine some entrepreneur wishes to create a replacement for LinkedIn on the Internet Computer. The first step they would probably take is to create a basic prototype, since LinkedIn is no marvel of engineering, and then upload the software “canisters” involved to the Internet Computer. At this point, the entrepreneur retains control over the service because they have a cryptographic key that allows them to configure and upgrade its systems. However, they would then upload an autonomous tokenized governance canister, and then irrevocably transfer control of the new service to this (so that it becomes part of that autonomous system). Of course, at this stage they would hold all the governance tokens, but their aim would be to divest themselves of tokens over time to fund development and incentivize contributors, such that eventually they hold only a minority stake and the service becomes truly “open”.
 >
 > We think that the larger the number of holders of voting tokens in the governance systems of internet services, the more attractive the internet service will be and the greater the number of supporters and promoters they shall have. Founders and key participants will still drive key decisions and day-to-day operations as most governance canisters, such as the standard ones offered by DFINITY, will support variations on “liquid democracy” algorithms that allow token holders to assign their voting power to others (where after the assignments of voting power will generally mostly be updated only when systemic problems emerge or emergencies occur) providing for strong dynamic leadership even though there may be enormous numbers of stakeholders. However, even if the founders of an internet service fail to divest themselves of sufficient governance tokens to make it truly open, their project can still guarantee that APIs they publicly share will not be revoked.
 
