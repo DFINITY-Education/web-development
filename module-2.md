@@ -22,7 +22,7 @@ In this case, `msg` and `owner` are both variable names we choose - there's noth
 
 What's the end result? We now hold the id of the canister that installed the `Balances` actor stored in our `owner` variable. In the subsequent functions, we can check that the caller of that function is the same `owner` who established the `Balances` actor, ensuring proper access control.
 
-At the top of `balances` we import two types from out `Types.mo` file: a `UserId` and a `Result`. If you take a brief look at `Types.mo`, you'll see that a `UserId` type is just a `Principal` address, and a `Result` type is just a wrapper to enable `Error` return values. We also create `userIdToBalance`, which maps `UserId`s to their corresponding  balances.
+At the top of `balances` we import two types from our `Types.mo` file: a `UserId` and a `Result`. If you take a brief look at `Types.mo`, you'll see that a `UserId` type is just a `Principal` address, and a `Result` type is just a wrapper to enable `Error` return values. We also create `userIdToBalance`, which maps `UserId`s to their corresponding balances.
 
 Let's begin by reviewing the last method in `Balances`. `deposit` accepts a `user` and an `amount` and increments that user's balance by the specified amount. The complication, however, is that we only want the canister that controls this `Balances` actor (think of them as an impartial "banker") to be able to increment balances. We accomplish this with the line: 
 
@@ -36,11 +36,11 @@ Next, let's take a look at `transfer`, which transfers an `_amount` to the balan
 
 #### `App.mo` 
 
-The auction app itself it relatively straightforward: we maintain individual `Auction`s, which have various attributes that we want to keep track of (see `Types.mo` for the exact list) and the actual `Item` that is being auctioned off. We store our auctions in the `auctions` lists, which maps an `AuctionId` to an `Auction` type, which contains all relevant attributes of the given auction.
+The auction app itself is relatively straightforward: we maintain individual `Auction`s, which have various attributes that we want to keep track of (see `Types.mo` for the exact list) and the actual `Item` that is being auctioned off. We store our auctions in the `auctions` lists, which maps an `AuctionId` to an `Auction` type, which contains all relevant attributes of the given auction.
 
 `auctionItem` is a method that creates a new auction given a `caller` (the owner of the auction), a `name` (the item name), a `description` of the item, a `url` to view the location of the item (for frontend purposes), and a `startingBid`. 
 
-`makeBid` is a method that takes a `bidder`, `auctionID`, and `amount` and updates an an auction's `highestBidder` and `highestBid` fields, simulating a person making a new bid on an auction. All other functions in `App.mo` are just helpers used in these main two functions.
+`makeBid` is a method that takes a `bidder`, `auctionID`, and `amount` and updates an auction's `highestBidder` and `highestBid` fields, simulating a person making a new bid on an auction. All other functions in `App.mo` are just helpers used in these main two functions.
 
 #### `Governor.mo`
 
@@ -57,7 +57,7 @@ Our `Governor` canister manages proposed upgrades to our application. See the [A
 **`auctionItem`** creates a new `Auction` and adds it to the `auctions` list
 
 * Use the `name`, `description`, and `url` parameters are used to create a new `Item` (by calling the `makeItem` helper function defined below).
-* Use this `item` to create a new auction, using the `makeAuction` helper, and finally add this auction to our `auctions` hash map  using a unique id .
+* Use this `item` to create a new auction, using the `makeAuction` helper, and finally add this auction to our `auctions` hash map using a unique id.
   * Note that we keep a global variable `auctionCounter` to derive a unique auction id. Consider how you might need to modify/update `auctionCounter` to ensure that it provides a unique id for each new `Auction`.
 
 **`makeBid`**
