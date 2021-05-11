@@ -1,6 +1,6 @@
 # Module 3: Connecting to the Frontend
 
-Now that you've completed the basic implementation of our open auction platform, it's time to link it to a frontend view! This module will guide you though the preliminary steps required to create and customize a frontend for your IC applications. 
+Now that you've completed the basic implementation of our open auction platform, it's time to link it to a frontend view! This module will guide you through the preliminary steps required to create and customize a frontend for your IC applications. 
 
 ![Frontend View](images/frontend-screenshot.png)
 
@@ -8,7 +8,7 @@ Now that you've completed the basic implementation of our open auction platform,
 
 This module assumes basic proficiency with HTML, CSS, JavaScript, and React. We use the React framework to simplify the process of building our user interface. If you aren't familiar with React, [read through this tutorial](https://reactjs.org/tutorial/tutorial.html) created by the developers to get comfortable with using the framework - it only requires knowledge of HTML and JavaScript. 
 
-Additionally, we have configured the starter files to work with React, but it's important to understand that you normally would have to complete this process yourself. Here is a [DFINITY SDK tutorial](https://sdk.dfinity.org/docs/developers-guide/tutorials/custom-frontend.html) that walks though the basics of setting up a frontend view for the IC, which you may find useful to skim before starting this module.
+Additionally, we have configured the starter files to work with React, but it's important to understand that you normally would have to complete this process yourself. Here is a [DFINITY SDK tutorial](https://sdk.dfinity.org/docs/developers-guide/tutorials/custom-frontend.html) that walks through the basics of setting up a frontend view for the IC, which you may find useful to skim before starting this module.
 
 ## Your Task
 
@@ -16,7 +16,7 @@ We have provided starter code that sets up the React framework and configures it
 
 ### Code Understanding
 
-Now let's take a look at our frontend assets, which are all stored in the `frontend` directory. Notice that we exclusively use `.jsx` files here, which are a variation of `.js` files that extend React functionality. You can read more about this file type and it's properties on the [React page](https://reactjs.org/docs/introducing-jsx.html).
+Now let's take a look at our frontend assets, which are all stored in the `frontend` directory. Notice that we exclusively use `.jsx` files here, which are a variation of `.js` files that extend React functionality. You can read more about this file type and its properties on the [React page](https://reactjs.org/docs/introducing-jsx.html).
 
 #### `index.jsx` & `app.jsx` 
 
@@ -68,5 +68,5 @@ http://127.0.0.1:8000/?canisterId=CANISTER_ID
 
 Replacing `CANISTER_ID` with the identifier of your `web_development_assets` canister. The identifier should take the general form of `cxeji-wacaa-aaaaa-aaaaa-aaaaa-aaaaa-aaaaa-q`.
 
-From here, you should see a view similar to that displayed in the picture at the top of this document. Try to create a new auction by clicking the "New Auction" button on the top right, and then explore some of the other front-end features. Once you create a new auction, refresh the page to see that the item persists. Finally, try performing some command-line tests (as described in the bottom of the Module 2 document) to see if the auctions you added were successfully stored in the `web_development` canister backend. 
+From here, you should see a view similar to that displayed in the picture at the top of this document. Try to create a new auction by clicking the "New Auction" button on the top right, and then explore some of the other front-end features. Once you create a new auction, refresh the page to see that the item persists. Finally, try performing some command-line tests (as described at the bottom of the Module 2 document) to see if the auctions you added were successfully stored in the `web_development` canister backend. 
 
