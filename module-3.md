@@ -1,8 +1,8 @@
 # Module 3: Connecting to the Frontend
 
 Now that you've completed the basic implementation of our open auction platform, it's time to link it to a frontend view! This module will guide you through the preliminary steps required to create and customize a frontend for your IC applications. 
+<p align="center"><img src="images/frontend-screenshot.png"/> </p>
 
-![Frontend View](images/frontend-screenshot.png)
 
 ## Background
 
