@@ -56,7 +56,7 @@ Our `Governor` canister manages proposed upgrades to our application. See the [A
 
 **`auctionItem`** creates a new `Auction` and adds it to the `auctions` list
 
-* Use the `name`, `description`, and `url` parameters are used to create a new `Item` (by calling the `makeItem` helper function defined below).
+* Use the `name`, `description`, and `url` parameters which are used to create a new `Item` (by calling the `makeItem` helper function defined below).
 * Use this `item` to create a new auction, using the `makeAuction` helper, and finally add this auction to our `auctions` hash map using a unique id.
   * Note that we keep a global variable `auctionCounter` to derive a unique auction id. Consider how you might need to modify/update `auctionCounter` to ensure that it provides a unique id for each new `Auction`.
 
