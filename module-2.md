@@ -119,7 +119,7 @@ To test your canister, first execute the following:
 ()
 ```
 
-This command runs the `setup()` function in `Main.mo`, which instantiates the Balances, App, and Governor canisters and initializes them with starting values. 
+This command runs the `deployBalances()` function in `Main.mo`, which instantiates the Balances, App, and Governor canisters and initializes them with starting values. 
 
 The `public` functions in `Main.mo` allow us to interface with our `web_development` canister. As a result, these are the methods you should call in the command-line interface to test your implementation.
 
